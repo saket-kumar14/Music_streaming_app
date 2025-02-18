@@ -1,4 +1,4 @@
-# Household-Services-app
+# Music-streaming-app
 
 ## How to Run
 
@@ -18,17 +18,17 @@ This is a music streaming platform designed for seamless audio content delivery.
 
 - User Roles:
 
-Admin: Manages platform operations, user accounts, and content moderation.
-Creators (Artists): Upload, manage, and modify their own music content.
-Customers (Listeners): Browse, stream, and create playlists from available music.
+    Admin: Manages platform operations, user accounts, and content moderation.
+    Creators (Artists): Upload, manage, and modify their own music content.
+    Customers (Listeners): Browse, stream, and create playlists from available music.
 
 - Core Functionalities:
 
-CRUD Operations: Users can create, read, update, and delete content based on their roles.
-Music Library Management: Creators can upload and organize tracks.
-Streaming Support: Customers can play music with a user-friendly interface.
-Personalized Playlists: Users can curate and manage their own playlists.
-Search & Discover: Advanced search and recommendation features.
+    CRUD Operations: Users can create, read, update, and delete content based on their roles.
+    Music Library Management: Creators can upload and organize tracks.
+    Streaming Support: Customers can play music with a user-friendly interface.
+    Personalized Playlists: Users can curate and manage their own playlists.
+    Search & Discover: Advanced search and recommendation features.
 
 ## Frameworks Used
 
