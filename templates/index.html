@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        nav {
+            text-align: right;
+        }
+
+        section {
+            text-align: center;
+        }
+
+        .login_register {
+            margin-top: 35px;
+        }
+    </style>
+</head>
+<body>
+    <header class="container">
+        <div class="row">
+        <div class="col-4">
+        <a class="btn btn-primary" href="{{ url_for('login') }}" class="text-left">Login</a></div>
+        <div class="col-8">
+        <h1>Music Streaming Application</h1></div></div>
+    </header>
+
+    <nav class="container">
+        <a href="{{ url_for('admin_login') }}">Admin Login</a>
+    </nav>
+
+    <section class="container">
+        <h2>Welcome to Music Streaming App</h2>
+        <p class="lead">
+            "Dive into a musical journey and uncover fresh tunes, albums, and curated playlists."
+        </p>
+        <p>
+            Choose an option below to get started:
+        </p>
+        <div class="login_register">
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+            <span class="mx-2">or</span>
+            <a class="btn btn-secondary" href="{{ url_for('register') }}">Register</a>
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

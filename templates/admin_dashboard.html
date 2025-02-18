@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Admin Dashboard</h2>
+        <div class="container mt-5">
+            <a href="{{ url_for('logout') }}" class="btn btn-primary mt-4">Go Back</a>
+        </div>
+        <div class="card-deck mt-4">
+            <a href="{{ url_for('admin_users') }}" class="card-link">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user_count }}</h5>
+                        <p class="card-text">Total Users</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('admin_creators') }}" class="card-link">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ creator_count }}</h5>
+                        <p class="card-text">Total Creators</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('admin_songs') }}" class="card-link">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ song_count }}</h5>
+                        <p class="card-text">Total Songs</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ url_for('admin_albums') }}" class="card-link">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ album_count }}</h5>
+                        <p class="card-text">Total Albums</p>
+                    </div>
+                </div>
+            </a>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ genre_count }}</h5>
+                        <p class="card-text">Total Genres</p>
+                    </div>
+                </div>
+
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                User Role Distribution
+            </div>
+            <div class="card-body">
+                <img src="{{ user_role_chart_path }}" alt="User Role Chart" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                Song Artist Distribution
+            </div>
+            <div class="card-body">
+                <img src="{{ song_artist_chart_path }}" alt="Song Artist Chart" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

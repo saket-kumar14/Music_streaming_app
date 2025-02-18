@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Album - {{ user.username }} Creator Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .create-album-container {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container create-album-container">
+        <h2>Create Album</h2>
+        <form method="post" action="{{ url_for('create_album', username=user.username) }}">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <input type="text" class="form-control" id="genre" name="genre">
+            </div>
+            <div class="form-group">
+                <label for="artist">Artist</label>
+                <input type="text" class="form-control" id="artist" name="artist">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Album</button>
+        </form>
+        <a href="{{ url_for('dashboard', username=user.username) }}" class="btn btn-secondary mt-3">Go Back</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

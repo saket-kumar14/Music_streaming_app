@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ playlist.name }} - Playlist Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>{{ playlist.name }} - Playlist Detail</h2>
+        <a href="{{ url_for('dashboard', username=user.username) }}" class="btn btn-secondary back-button">Go Back</a>
+        <form method="post" action="{{ url_for('update_playlist_name', playlist_id=playlist.id) }}" class="mb-3">
+            <div class="form-group">
+                <label for="new_playlist_name">New Playlist Name</label>
+                <input type="text" class="form-control" id="new_playlist_name" name="new_playlist_name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Playlist Name</button>
+        </form>
+        <form method="post" action="{{ url_for('add_song_to_playlist', playlist_id=playlist.id) }}" class="mb-3">
+            <div class="form-group">
+                <label for="song_id">Add Song to Playlist</label>
+                <select class="form-control" id="song_id" name="song_id" required>
+                    {% for song in all_songs if song not in playlist.songs %}
+                        <option value="{{ song.id }}">{{ song.title }} by {{ song.artist }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Add Song to Playlist</button>
+        </form>
+        <form method="post" action="{{ url_for('delete_playlist', playlist_id=playlist.id) }}" class="mb-3">
+            <button type="submit" class="btn btn-danger">Delete Playlist</button>
+        </form>
+
+        <ul>
+            {% for song in playlist.songs %}
+                <li>
+                    <a href="{{ url_for('play_song', song_id=song.id, username=user.username) }}">{{ song.title }} by {{ song.artist }}</a>
+                    <form method="post" action="{{ url_for('remove_song_from_playlist', playlist_id=playlist.id, song_id=song.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-warning btn-sm ml-2">Remove from Playlist</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

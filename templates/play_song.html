@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ song.title }} - Song Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+
+        .song-details-container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        .ratings-comments-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .ratings-comments-container .ratings-container, .ratings-comments-container .comment-container, .ratings-comments-container .submit-section {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .ratings-comments-container .ratings-container h4, .ratings-comments-container .comment-container h4, .ratings-comments-container .submit-section h5 {
+            margin-bottom: 15px;
+        }
+
+        .ratings-comments-container .submit-section .rating-input {
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container song-details-container">
+        <h2>{{ song.title }}</h2>
+        <p>{{ song.artist }}</p>
+        <p>{{ song.album.genre }}</p>
+        <p>Release Date: {{ song.release_date }}</p>
+
+        <div class="mb-3">
+            <audio controls>
+                {% set audio_filename = 'songs/' + song.title + '.mp3' %}
+                <source src="{{ url_for('static', filename=audio_filename) }}" type="audio/mp3">
+                Your browser does not support the audio tag.
+            </audio>
+        </div>
+        <div class="mb-3">
+            <h4>Lyrics</h4>
+            <p>{{ song.lyrics }}</p>
+        </div>
+
+        <div class="ratings-comments-container">
+            <div class="ratings-container">
+                <h4>Previous Ratings</h4>
+                <ul>
+                    {% for rating in comments %}
+                        <li>{{ rating.value }} stars - {{ rating.user.username }} ({{ rating.timestamp.strftime('%Y-%m-%d %H:%M:%S') }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="comment-container">
+                <h4>Previous Comments</h4>
+                <ul>
+                    {% for comment in comments %}
+                        <li>{{ comment.text }} - {{ comment.user.username }} ({{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="submit-section">
+            <h5>Submit Rating and Comment</h5>
+            <form action="{{ url_for('submit_comment', song_id=song.id ,username=user.username) }}" method="post">
+                <div class="rating-input">
+                    <label for="rating">Your Rating:</label>
+                    <input type="number" name="rating" min="1" max="5" required>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Your Comment:</label>
+                    <textarea class="form-control" name="comment" rows="4" placeholder="Write your comment here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Rating and Comment</button>
+            </form>
+        </div>
+
+        <a href="{{ url_for('dashboard', username=user.username) }}" class="btn btn-secondary btn-back">Go Back</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

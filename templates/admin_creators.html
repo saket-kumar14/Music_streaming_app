@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Creators</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Admin Creators</h2>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary mb-3">Back to Dashboard</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Total Songs</th>
+                    <th>Total Albums</th>
+                    <th>Average Rating</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for creator in creators %}
+                    <tr>
+                        <td>{{ creator.username }}</td>
+                        <td>{{ creator.songs|length }}</td>
+                        <td>{{ creator.albums|length }}</td>
+                        <td>{{ creator.average_rating }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('admin_creators') }}">
+                                <input type="hidden" name="creator_id" value="{{ creator.id }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <form method="post" action="{{ url_for('admin_creators') }}">
+            <div class="form-group">
+                <label for="search_query">Search:</label>
+                <input type="text" class="form-control" id="search_query" name="search_query" value="{{ search_query }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+</body>
+</html>

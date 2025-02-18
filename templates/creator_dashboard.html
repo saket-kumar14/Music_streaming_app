@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }} - Creator Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>Creator Dashboard</p>
+        <div class="container mt-5">
+            <a href="{{ url_for('dashboard', username=user.username) }}" class="btn btn-secondary mt-3">Go Back</a>
+    </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Songs Uploaded</h5>
+                        <p class="card-text">{{ total_songs }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Rating</h5>
+                        <p class="card-text">{{ average_rating }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Albums</h5>
+                        <p class="card-text">{{ total_albums }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-4">Your Uploads</h4>
+        <ul class="list-group">
+            {% for song in user_uploads %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('play_song', song_id=song.id , username=user.username) }}">{{ song.title }}</a> - {{ song.artist }}
+                    <span class="float-right">
+                        <a href="{{ url_for('edit_song', song_id=song.id) }}">Edit</a> |
+                        <form method="post" action="{{ url_for('delete_song', song_id=song.id) }}" style="display: inline;">
+                            <button type="submit" class="btn btn-link p-0 m-0" >Delete</button>
+                        </form>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

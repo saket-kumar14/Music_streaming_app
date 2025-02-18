@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }} - Creator Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .mad_1_dashboard-container {
+            margin: 20px;
+        }
+
+        .song-list {
+            margin-top: 20px;
+        }
+
+        .playlist-section {
+            margin-top: 20px;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mad_1_dashboard-container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand">Creator Account</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('upload_song', username=user.username) }}">Upload Song</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('create_album', username=user.username) }}">Create
+                            Album</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('creator_dashboard', username=user.username) }}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="clearfix"></div>
+
+        <div class="song-list">
+            <h4>All Songs</h4>
+            <div class="search-form">
+                <form action="{{ url_for('dashboard', username=user.username) }}" method="get">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label class="sr-only" for="search_songs">Search Songs</label>
+                            <input type="text" class="form-control mb-2" id="search_songs" name="song_search"
+                                placeholder="Search Songs">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary mb-2">Search Songs</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {% if all_songs %}
+            <div class="row">
+                {% for song in all_songs %}
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ song.title }}</h5>
+                            <p class="card-text">{{ song.artist }}</p>
+                            <a href="{{ url_for('play_song', song_id=song.id,username=user.username) }}" class="btn btn-primary">Play / View
+                                Lyrics</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No songs available.</p>
+            {% endif %}
+        </div>
+
+
+
+
+
+
+
+        <div class="playlist-section">
+            <h4>Your Playlists</h4>
+            <div class="search-form">
+                <form action="{{ url_for('dashboard', username=user.username) }}" method="get">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label class="sr-only" for="search_playlists">Search Playlists</label>
+                            <input type="text" class="form-control mb-2" id="search_playlists" name="playlist_search"
+                                placeholder="Search Playlists">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary mb-2">Search Playlists</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+                {% if playlists %}
+                {% for playlist in playlists %}
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><a
+                                    href="{{ url_for('playlist_detail', playlist_id=playlist.id , username=user.username) }}">{{ playlist.name
+                                    }}</a></h5>
+                            <p class="card-text">Number of Songs: {{ playlist.songs | length }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No playlists available.</p>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div>
+            <a href="{{ url_for('create_playlist', username=user.username) }}" class="btn btn-primary">Create
+                Playlist</a>
+        </div>
+        <br />
+        <div class="genre-section">
+            <h4>Songs by Genre</h4>
+            {% if genres_with_songs_list %}
+            <div class="row">
+                {% for genre, genre_songs in genres_with_songs_list %}
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ genre }}</h5>
+                            {% for song in genre_songs %}
+                            <ul class="list-group list-group-flush">
+                                <a href="{{ url_for('play_song', song_id=song.id, username=user.username) }}">
+                                    <li class="list-group-item">{{ song.title }} - {{ song.artist }}</li>
+                                </a>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>No songs available by genre.</p>
+            {% endif %}
+        </div>
+        
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
