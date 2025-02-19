@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | Register</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/auth/login">User Login</a></li>
+                    <li><a href="/auth/adminLogin">Admin Login</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="form-container">
+            <form action="/auth/register" method="POST">
+                <h1>User Registration</h1>
+                <hr />
+                <div class="input-container">
+                    <label for="userName">Full Name</label>
+                    <input type="text" name="userName" id="userName" placeholder="Enter your full name" required />
+                </div>
+                <!-- DOB -->
+                <div class="input-container">
+                    <label for="userDob">Date of Birth</label>
+                    <input type="date" name="userDob" id="userDob" placeholder="Enter your DOB" required />
+                </div>
+                <!-- Gender -->
+                <div class="input-container">
+                    <label for="userGender">Gender</label>
+                    <div class="radioButtonGroup">
+                        <div class="radioOption">
+                            <input type="radio" value="M" name="userGender" id="maleGender" required />
+                            <label for="maleGender">Male</label>
+                        </div>
+                        <div class="radioOption">
+                            <input type="radio" value="F" name="userGender" id="femaleGender" required />
+                            <label for="femaleGender">Female</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <label for="userEmail">Email</label>
+                    <input type="email" name="userEmail" id="userEmail" placeholder="Enter your Email-ID" required />
+                </div>
+                <div class="input-container">
+                    <label for="userPassword">Password</label>
+                    <input type="password" name="userPassword" id="userPassword" placeholder="Enter a Password"
+                        required />
+                </div>
+                <hr />
+                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-top: 32px;">
+                    <input type="checkbox" name="userAgreement" id="userAgreement" required />
+                    <label style="margin-left: 4px;" for="userAgreement">I agree to the <a href="/tc">Terms and Conditions</a></label>
+                </div>
+                <div class="input-container">
+                    <input type="submit" title="Register" class="btn" />
+                </div>
+                <hr />
+                <div style="margin-top: 16px; margin-bottom: 16px;">
+                    <span class="helper">Already have an account? <a href="/auth/login">Login</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+</body>
+
+</html>

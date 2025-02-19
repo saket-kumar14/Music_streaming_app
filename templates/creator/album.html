@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | My Albums</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+    <link rel="stylesheet" href="../../static/css/album.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/song">My Songs</a></li>
+                    <li><a href="/genre">Genres</a></li>
+                        <li><a href="/language">Languages</a></li>
+                    <li><a href="/creator/dashboard">Dashboard</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Content-->
+    <div class="content">
+        <h1>Albums Created by Me</h1>
+        <div class="bigButton">
+            <a href="/album/new">
+                <i class="material-icons">add_circle</i>
+                <span class="button-text">New Album</span>
+            </a>
+        </div>
+
+        <br />
+
+        <form action="/album" method="GET">
+            <div class="searchBar">
+                <input type="text" name="search" value="{{searchQuery}}" id="search" placeholder="Search Albums" style="width: 540px;" />
+            </div>
+        </form>
+
+        {% if albumList | length == 0 %}
+        <div class="empty">
+            <h3 style="text-align: center;">No Albums Found</h3>
+            <p style="text-align: center;">Click on the button above to add a new album</p>
+        </div>
+        {% else %}
+        <div class="albumList">
+            {% for album in albumList %}
+            <div class="albumCard">
+                <div class="albumCard__image">
+                    <img src="/static/music/album/{{album[0]}}.{{album[11]}}" alt="Album Image">
+                </div>
+                <div class="about">
+                    <h3>{{album[1]}}</h3>
+                    <p>{{album[2]}}</p>
+                </div>
+                <hr />
+                <div class="albumCard__buttons">
+                    <a href="/album/{{album[0]}}/edit">
+                        <i class="material-icons play">edit</i>
+                    </a>
+                    <a class="iconRow playButton" href="/album/{{album[0]}}">
+                        <i class="material-icons play">library_music</i>
+                        <p class="button-text">View Album</p>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %} -->
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+</body>
+
+</html>

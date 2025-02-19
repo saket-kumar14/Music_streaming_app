@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | Edit Song</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/song">My Songs</a></li>
+                    <li><a href="/album">My Albums</a></li>
+                    <li><a href="/genre">Genres</a></li>
+                        <li><a href="/language">Languages</a></li>
+                    <li><a href="/creator/dashboard">Dashboard</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="form-container">
+            <form action="/song/{{songId}}/edit" method="POST" enctype="multipart/form-data">
+                <h1>Edit Song</h1>
+                <hr />
+                <div class="input-container">
+                    <label for="songName">Song Title</label>
+                    <input type="text" value="{{songName}}" name="songName" id="songName"
+                        placeholder="Enter song's title" style="width: 540px;" required />
+                </div>
+                <div class="input-container">
+                    <label for="songDescription">Tell something about the song</label>
+                    <textarea type="text" name="songDescription" id="songDescription"
+                        placeholder="Song Description>" style="width: 540px;">{{songDescription}}</textarea>
+                </div>
+                <div class="input-container">
+                    <label for="songLanguage">Song Language</label>
+                    <select class="select" name="songLanguage" id="songLanguage" style="width: 540px;" required>
+                        <option class="select" value="" disabled selected>Select Language</option>
+                        {% for language in languageList %}
+                        {% if language[0] == songLanguage %}
+                        <option class="select" value="{{ language[0] }}" selected>{{ language[1] }}</option>
+                        {% else %}
+                        <option class="select" value="{{ language[0] }}">{{ language[1] }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-container">
+                    <label for="songCover">Song Cover/Poster</label>
+                    <br />
+                    <img src="/static/music/poster/{{songId}}.{{songCoverExt}}" alt="Song Cover" style="width: 540px; border-radius: 16px; margin-left: auto; margin-right: auto;" />
+                    <p style="text-align: center;">Click the button below to update</p>
+                    <input type="file" name="songCover" id="songCover" accept="image/jpeg" style="width: 540px;" />
+                </div>
+                <div class="input-container">
+                    <label for="songAudio">Song Audio File</label>
+                    <br />
+                    <audio controls>
+                        <source src="/static/music/song/{{songId}}.{{songAudioExt}}" type="audio/mpeg">
+                    </audio>
+                    <p style="text-align: center;">Click the button below to update</p>
+                    <input type="file" name="songAudio" id="songAudio" accept="audio/mp3" style="width: 540px;" />
+                </div>
+                <div class="input-container">
+                    <label for="songLyrics">Lyrics</label>
+                    <textarea type="text" name="songLyrics" id="songLyrics" placeholder="Song Lyrics>"
+                        style="width: 540px;" required>{{songLyrics}}</textarea>
+                </div>
+                <div class="input-container">
+                    <label for="songReleaseDate">Song Release Date</label>
+                    <input type="date" value="{{songReleaseDate}}" name="songReleaseDate" id="songReleaseDate"
+                        placeholder="Choose Song Release Date" style="width: 540px;" required />
+                </div>
+                <div class="input-container">
+                    <label for="songGenre">Genre</label>
+                    <select class="select" name="songGenre" id="songGenre" style="width: 540px;" required>
+                        <option class="select" value="" disabled selected>Select Genre</option>
+                        {% for genre in genreList %}
+                        {% if genre[0] == songGenre %}
+                        <option class="select" value="{{ genre[0] }}" selected>{{ genre[1] }}</option>
+                        {% else %}
+                        <option class="select" value="{{ genre[0] }}">{{ genre[1] }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <span class="helper">Can't find the genre? <a href="/genre/new">Add New Genre</a></span>
+                <div class="input-container">
+                    <input type="submit" title="Edit Song" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %} -->
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+</body>
+
+</html>

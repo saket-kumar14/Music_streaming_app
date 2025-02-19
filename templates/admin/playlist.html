@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | Playlists</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+    <link rel="stylesheet" href="../../static/css/playlist.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/admin/dashboard">Artists</a></li>
+                    <li><a href="/song">Songs</a></li>
+                    <li><a href="/album">Albums</a></li>
+                    <li><a href="/admin/dashboard">Dashboard</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Content-->
+    <div class="content">
+        <h1>Playlists</h1>
+
+        <form action="/playlist" method="GET">
+            <div class="searchBar">
+                <input type="text" name="search" value="{{searchQuery}}" id="search" placeholder="Search Playlists"
+                    style="width: 540px;" />
+            </div>
+        </form>
+
+        {% if playlistList | length == 0 %}
+        <div class="empty">
+            <h3 style="text-align: center;">No Playlists Found</h3>
+            <p style="text-align: center;">Click on the button above to add a new playlist</p>
+        </div>
+        {% else %}
+        <div class="playlistList">
+            {% for album in playlistList %}
+            <div class="playlistCard">
+                <div class="about">
+                    <h3>{{album[1]}}</h3>
+                    <p>{{album[2]}}</p>
+                </div>
+                <hr />
+                <div class="playlistCard__buttons">
+                    <a class="iconRow playButton" href="/playlist/{{album[0]}}">
+                        <i class="material-icons play">library_music</i>
+                        <p class="button-text">View Playlist</p>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | New Album</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/song">My Songs</a></li>
+                    <li><a href="/album">My Albums</a></li>
+                    <li><a href="/genre">Genres</a></li>
+                        <li><a href="/language">Languages</a></li>
+                    <li><a href="/creator/dashboard">Dashboard</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="form-container">
+            <form action="/album/new" method="POST" enctype="multipart/form-data">
+                <h1>New Album</h1>
+                <hr />
+                <div class="input-container">
+                    <label for="albumName">Album Title</label>
+                    <input type="text" name="albumName" id="albumName" placeholder="Enter Album's title" style="width: 540px;" required />
+                </div>
+                <div class="input-container">
+                    <label for="albumDescription">Tell something about the album</label>
+                    <textarea type="text" name="albumDescription" id="albumDescription" placeholder="Album Description>" style="width: 540px;"></textarea>
+                </div>
+                <div class="input-container">
+                    <label for="albumCover">Album Cover/Poster</label>
+                    <input type="file" name="albumCover" id="albumCover" accept="image/*" style="width: 540px;" required />
+                </div>
+                <div class="input-container">
+                    <label for="releaseDate">Album Release Date</label>
+                    <input type="date" name="releaseDate" id="releaseDate" placeholder="Choose Album Release Date" style="width: 540px;" required />
+                </div>
+                <div class="input-container">
+                    <input type="submit" title="New Album" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+</body>
+
+</html>

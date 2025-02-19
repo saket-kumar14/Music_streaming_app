@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | Admin Login</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../static/css/base.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/auth/login">User Login</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="form-container">
+            <form action="/auth/adminLogin" method="POST">
+                <h1>Admin Login</h1>
+                <hr />
+                <div class="input-container">
+                    <label for="email">Email</label>
+                    <input type="email" name="adminEmail" id="adminEmail" placeholder="Enter your Email-ID" required />
+                </div>
+                <div class="input-container">
+                    <label for="password">Password</label>
+                    <input type="password" name="adminPassword" id="adminPassword" placeholder="Enter your Password"
+                        required />
+                </div>
+                <span class="helper">Don't have an admin account? <a href="/auth/login">Login as User</a></span>
+                <div class="input-container">
+                    <input type="submit" title="Login" class="btn" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script type="text/javascript" src="../static/js/base.js"></script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</body>
+
+</html>

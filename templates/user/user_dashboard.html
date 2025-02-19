@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | User Dashboard</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+    <link rel="stylesheet" href="../../static/css/dashboard.css">
+    <link rel="stylesheet" href="../../static/css/user_dashboard.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/user/dashboard">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/playlist">Playlist</a></li>
+                    <li><a href="/song">Songs</a></li>
+                    <li>
+                        <a onclick="registerAsCreator()">Register as Creator</a>
+                    </li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1 style="margin-top: 0; margin-bottom: 2px">Welcome, {{session['userName']}}</h1>
+
+        <div class="row">
+            <div class="bigButton">
+                <a href="/playlist/new">
+                    <i class="material-icons">add_circle</i>
+                    <span class="button-text">New Playlist</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+
+    <script type="text/javascript">
+        function registerAsCreator() {
+            if (confirm("Are you sure you want to register as a creator?")) {
+                const response = fetch("/user/registerAsCreator", {
+                    method: "POST",
+                }).then(response => {
+                    if (response.status == 200) {
+                        alert("You have been registered as a creator! Login again to continue.");
+                        window.location.href = "/auth/logout";
+                    } else {
+                        alert("Something went wrong!");
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

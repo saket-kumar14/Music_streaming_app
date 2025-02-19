@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | {{playlistName}} | Add Song</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../static/css/base.css">
+    <link rel="stylesheet" href="../../static/css/dashboard.css">
+    <link rel="stylesheet" href="../../static/css/creator_dashboard.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        let audioElements = {};
+        let lastPausedId = null;
+
+        function lyricsModalPopup(songName, songLyrics) {
+            const mainScreen = document.querySelector('.mainScreen');
+            mainScreen.style.filter = 'blur(10px)';
+            const modal = document.querySelector('.modal');
+            const modalTitle = document.querySelector('#modalTitle');
+            const lyricsBody = document.querySelector('#lyricsBody');
+
+            songLyrics = songLyrics.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+            modalTitle.innerHTML = songName;
+            lyricsBody.innerHTML = songLyrics;
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            modal.style.display = 'none';
+            const mainScreen = document.querySelector('.mainScreen');
+            mainScreen.style.filter = 'blur(0px)';
+        }
+
+        function handlePlayPause(songId, songFormat) {
+            const playButton = document.querySelector(`#playButton_${songId}`);
+            const songCard = document.querySelector(`#songCard_${songId}`);
+
+            if (audioElements[songId] != undefined) {
+                if (audioElements[songId].paused) {
+                    handlePlay(songId);
+                } else {
+                    handlePause(songId);
+                }
+            } else {
+                const audioUrl = `/static/music/song/${songId}.${songFormat}`;
+                const audioElement = new Audio(audioUrl);
+                audioElements[songId] = audioElement;
+
+                audioElement.addEventListener('ended', () => {
+                    handlePause(songId);
+                });
+
+                handlePlay(songId);
+            }
+        }
+
+        function handlePlay(songId) {
+            const playButton = document.querySelector(`#playButton_${songId}`);
+            const songCard = document.querySelector(`#songCard_${songId}`);
+
+            const playIcon = playButton.querySelector('.play');
+            const pauseIcon = playButton.querySelector('.pause');
+            const buttonText = playButton.querySelector('.button-text');
+
+            const audioElement = audioElements[songId];
+
+            // stop all other songs
+            for (const key in audioElements) {
+                if (key != songId) {
+                    const playButton = document.querySelector(`#playButton_${key}`);
+                    const songCard = document.querySelector(`#songCard_${key}`);
+
+                    const playIcon = playButton.querySelector('.play');
+                    const pauseIcon = playButton.querySelector('.pause');
+                    const buttonText = playButton.querySelector('.button-text');
+
+                    audioElements[key].pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                    buttonText.innerHTML = 'Play';
+                    songCard.style.border = '1px solid rgba(41, 42, 45, 0.4)';
+                }
+            }
+
+
+            audioElement.play();
+            playIcon.classList.toggle('hidden');
+            pauseIcon.classList.toggle('hidden');
+            buttonText.innerHTML = 'Pause';
+            songCard.style.border = '1px solid #e2f8f6d7';
+        }
+
+        function handlePause(songId) {
+            const playButton = document.querySelector(`#playButton_${songId}`);
+            const songCard = document.querySelector(`#songCard_${songId}`);
+
+            const audioElement = audioElements[songId];
+
+            const playIcon = playButton.querySelector('.play');
+            const pauseIcon = playButton.querySelector('.pause');
+            const buttonText = playButton.querySelector('.button-text');
+
+            audioElement.pause();
+            playIcon.classList.toggle('hidden');
+            pauseIcon.classList.toggle('hidden');
+            buttonText.innerHTML = 'Play';
+            songCard.style.border = '1px solid rgba(41, 42, 45, 0.4)';
+        }
+
+        document.addEventListener('keydown', (event) => {
+            event.preventDefault();
+            if (event.code == 'Space') {
+                flag = true;
+                for (const key in audioElements) {
+                    if (!audioElements[key].paused) {
+                        handlePause(key);
+                        flag = false;
+                        lastPausedId = key;
+                    }
+                }
+
+                if (flag) {
+                    if (lastPausedId != null) {
+                        handlePlay(lastPausedId);
+                    }
+                }
+            }
+        });
+    </script>
+
+    <div class="mainScreen" style="height: 96vh;">
+        <header>
+            <nav>
+                <ul class="nav-bar">
+                    <a class="logo" href="/creator/dashboard">
+                        <i class="material-icons">music_note</i>
+                        <span class="logo-text">Music App</span>
+                    </a>
+                    <span class="menu">
+                        <li><a href="/playlist">Playlist</a></li>
+                        <li><a href="/song">Songs</a></li>
+                        <li><a href="/user/dashboard">Dashboard</a></li>
+                        <li><a href="/auth/logout">Logout</a></li>
+                    </span>
+                    <span class="logo menu-trigger hidden">
+                        <i class="material-icons">menu</i>
+                    </span>
+                </ul>
+            </nav>
+        </header>
+    
+        <div class="content">
+            <h1 style="margin-top: 0; margin-bottom: 2px">{{albumName}}</h1>
+    
+            <h2>Songs</h2>
+            <!-- Song Cards -->
+            {% if songList | length == 0 %}
+            <div class="empty">
+                <h3 style="text-align: center;">No Songs Found</h3>
+                <p style="text-align: center;">All of the songs already belong to playlists.</p>
+            </div>
+            {% else %}
+            <div class="songList">
+                {% for song in songList %}
+                <form action="/playlist/{{playlistId}}/song/{{song[0]}}/link" method="post" style="display: block;">
+                    <div class="songCard" id="songCard_{{song[0]}}">
+                        <div class="songCard__image">
+                            <img src="/static/music/poster/{{song[0]}}.{{song[5]}}" alt="Song Image">
+                        </div>
+                        <div class="songCard__details">
+                            <h3>{{song[1]}}</h3>
+                        </div>
+                        <hr />
+                        <div class="songCard__buttons">
+                            <div class="iconRow playButton" id="playButton_{{song[0]}}"
+                                onclick="handlePlayPause(`{{song[0]}}`, `{{song[4]}}`)">
+                                <i class="material-icons play">play_arrow</i>
+                                <i class="material-icons pause hidden">pause</i>
+                                <p class="button-text">Play</p>
+                            </div>
+                            <a>
+                                <i class="material-icons"
+                                    onclick="lyricsModalPopup(`{{song[1]}}`, `{{song[3] | safe}}`)">lyrics</i>
+                            </a>
+                        </div>
+                        <hr />
+                        <div style="width: 95%;">
+                            <input type="submit" value="Add Song" title="Add Song" />
+                        </div>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <div class="form-container">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle"></h2>
+            </div>
+            <p id="lyricsBody"></p>
+        </div>
+    </div>
+
+
+    <!-- JS -->
+    <script type="text/javascript" src="../../static/js/base.js"></script>
+</body>
+
+</html>

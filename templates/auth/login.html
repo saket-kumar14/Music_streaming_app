@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music App | Login</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../static/css/base.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+
+<body>
+    <!--NavBar-->
+    <header>
+        <nav>
+            <ul class="nav-bar">
+                <a class="logo" href="/">
+                    <i class="material-icons">music_note</i>
+                    <span class="logo-text">Music App</span>
+                </a>
+                <span class="menu">
+                    <li><a href="/auth/register">Register</a></li>
+                    <li><a href="/auth/adminLogin">Admin Login</a></li>
+                </span>
+                <span class="logo menu-trigger hidden">
+                    <i class="material-icons">menu</i>
+                </span>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="form-container">
+            <form action="/auth/login" method="POST" >
+                <h1>User Login</h1>
+                <hr />
+                <div class="input-container">
+                    <label for="email">Email</label>
+                    <input type="email" name="userEmail" id="userEmail" placeholder="Enter your Email-ID" required />
+                </div>
+                <div class="input-container">
+                    <label for="password">Password</label>
+                    <input type="password" name="userPassword" id="userPassword" placeholder="Enter your Password" required />
+                </div>
+                <span class="helper">Don't have an account? <a href="/auth/register">Register</a></span>
+                <div class="input-container">
+                    <input type="submit" title="Login" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- JS -->
+    <script type="text/javascript" src="../static/js/base.js"></script>
+</body>
+
+</html>
