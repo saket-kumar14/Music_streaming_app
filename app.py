@@ -4421,9 +4421,9 @@ def apiUnlinkSongFromPlaylist(playlistId, songId):
         print(e)
         return jsonify({"status": "error", "message": "Something Went Wrong"})
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     #reinitializeDatabase()
     #initEnvironment()
     #generateKey()
 
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000)'''
